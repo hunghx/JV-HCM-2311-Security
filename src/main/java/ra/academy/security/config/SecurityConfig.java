@@ -21,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ra.academy.security.jwt.JwtAuthenticationFilter;
 
 import java.util.Arrays;
+import java.util.List;
 
 // cấu hinh security
 @Configuration
@@ -49,11 +50,11 @@ public class SecurityConfig {
         return auth.getAuthenticationManager();
     }
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("http://localhost:5173");
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","DELETE"));
-        configuration.setAllowCredentials(false);
+        configuration.setAllowedOrigins(List.of("http://localhost:5173/","http://localhost:5174/"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -61,7 +62,7 @@ public class SecurityConfig {
 
     @Bean // phân quyền
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors ->cors.configurationSource(corsConfigurationSource())) // chia sẻ tài nguyên
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // chia sẻ tài nguyên
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // phi trạng thai
                 // xử lí lỗi :
