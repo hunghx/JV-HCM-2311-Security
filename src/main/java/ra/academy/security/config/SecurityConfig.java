@@ -77,6 +77,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api.com/v1/mod/**").hasAuthority("ROLE_MODERATOR")
                                 .requestMatchers("/api.com/v1/user-mod/**").hasAnyAuthority("ROLE_USER", "ROLE_MODERATOR")
                                 .requestMatchers("/api.com/v1/public/**").permitAll()
+                                .requestMatchers("/api.com/v2/**").authenticated()
                                 .anyRequest().authenticated() // còn lại thì phải được xác thực
                 );
         http.authenticationProvider(authenticationProvider());
