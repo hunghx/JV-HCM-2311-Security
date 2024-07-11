@@ -1,5 +1,6 @@
 package ra.academy.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ public class AuthController {
     @Autowired
     private IAuthentication authentication;
     @PostMapping("/sign-in")
-    public ResponseEntity<?> login(@RequestBody FormLogin formLogin){
+    public ResponseEntity<?> login(@Valid @RequestBody FormLogin formLogin){
         return new ResponseEntity<>(authentication.login(formLogin), HttpStatus.OK);
     }
 }
